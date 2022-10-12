@@ -1,0 +1,53 @@
+USING RUST + HASKELL
+- while.hs contains the while language definition
+- everything compiles to binary hc
+- main.rs is the main program:
+  - takes file ending in .while as argument
+  - creates a [program name].hs file that executes the expression using while.hs and writes the state for all used variables to [program name].res
+  - check if program terminates
+    - compile program to binary of same name
+- parser.rs:
+  - checks syntax of given file and resurns string conforming to haskell definition
+  - syntax checking:
+    - check if correct expressions
+    - check if blocks are complete
+  - create list of all variables used
+- simulation.rs:
+  - given a limit of steps does the given while program terminate?
+- *.while:
+  - first line is program name in []
+  - lines staring with # are ignored
+  - lines between ### are ignored
+
+PURE HASKELL
+- while.hs contains the while language definition
+- parse.hs contains the parser that creates a while expression from a given string in a file
+- name main.hs with argument of filename ending in .while
+- read line by line and track blocks and set brackets and colons accordingly
+  - also keep track of used variables
+- compose into one long string to parse
+- parse string into expression
+- interpret expression using while language
+- print resulting state by using collected variables
+
+NOTES
+check syntax of aexp:
+  - binding strength of operators is implemented in the parser
+  - check if integer
+  - check if variable -> contains no spaces, no operators and no brackets?
+  - starts with opening bracket? -> read until closing bracket
+    - check if contents of bracket is valid aexp
+  - if aexp continues after first element:
+    - an operator has to come next
+    - check if rest after operator is valid aexp
+
+check syntax of bexp:
+  - binding strength of operators is implemented in the parser
+  - check if boolean value
+  - starts with opening bracket? -> read until closing bracket
+    - check if contents of bracket is valid bexp
+  - if aexp continues after first element:
+    - an operator has to come next
+    - check if rest after operator is valid aexp
+
+- in both cases trailing spaces lead to an incorrect expression
